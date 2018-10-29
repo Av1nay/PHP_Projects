@@ -5,11 +5,11 @@ include 'header.php';
 	<table>
 		<tr>
 			<td>
-                <img src="" alt="">
+                <img src="images/" alt="">
             </td>
 		</tr>
         <tr>
-            <textarea>
+            <textarea rows="7" cols="150" maxlength="1000">
 
             </textarea>
         </tr>
