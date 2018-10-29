@@ -41,6 +41,12 @@ include 'db_connect.php';
 					<input type="password" name="comfirm_password" required>
 				</td>
 			</tr>
+            <tr>
+                <th>
+                    <label for="uploadprofile">Upload Profile:</label>
+                </th>
+                <td><input type="file"></td>
+            </tr>
 			<tr>
 				<td colspan="2" style="text-align: center;">
 					<input type="submit" value="Create User">
