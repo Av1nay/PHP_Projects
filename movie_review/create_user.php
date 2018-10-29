@@ -4,7 +4,7 @@ include 'db_connect.php';
 
 <html>
 
-<form action="insert_commit.php" method="post">
+<form action="insert_commit.php" method="post" enctype="multipart/form-data">
 	<center>
 		<h2>Register for new users!!</h2>
 		<hr>
@@ -45,7 +45,7 @@ include 'db_connect.php';
                 <th>
                     <label for="uploadprofile">Upload Profile:</label>
                 </th>
-                <td><input type="file"></td>
+                <td><input type="file" name="image"></td>
             </tr>
 			<tr>
 				<td colspan="2" style="text-align: center;">
