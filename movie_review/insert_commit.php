@@ -11,6 +11,7 @@ if(!empty($_POST)) {
 			echo 'Inserted and added new row!!';
 			header( 'Refresh:2; URL=insert_form_movietype.php' );
 			break;
+//-------------------------------------------------------------------------------------------------------------------------
 		//insert people actor or director
 		case ( isset( $_POST['actor_or_director'] ) ):
 			$post_count_actor_or_director = count( $_POST['actor_or_director'] );
@@ -50,7 +51,7 @@ if(!empty($_POST)) {
 			}
 			header( 'Refresh:2; URL= insert_in_people_form.php' );
 			break;
-
+//-------------------------------------------------------------------------------------------------------------------------
 		//insert moviename
 		case ( isset( $_POST['moviename'] ) ):
 			$movie_name = $_POST['moviename'];
@@ -68,20 +69,32 @@ if(!empty($_POST)) {
 			echo ucfirst('new row successfully inserted!!');
 			header( 'Refresh:2; URL= inserting_data_in_movies_table.php' );
 			break;
-
+//-------------------------------------------------------------------------------------------------------------------------
 		//insert users
 		case (isset($_POST['fullname']) && isset($_POST['username']) && isset($_POST['password']) && isset($_POST['comfirm_password'])):
 			if ($_POST['password'] == $_POST['comfirm_password']) {
-				$query_insert_user_details = 'insert into user_details (fullname, username,password)
-																values ("' . $_POST['fullname'] . '","' . $_POST['username'] . '","' . password_hash($_POST['password'],PASSWORD_DEFAULT) . '")';
-				$executes_query_insert_user_details = mysqli_query( $connect_db_movie_review, $query_insert_user_details ) or die( mysqli_error( $connect_db_movie_review ) );
-				echo 'created successfully!!';
-				header( 'Refresh:3; URL=login_page.php' );
+                    $query_insert_user_details = 'insert into user_details (fullname, username,password)
+																values ("' . $_POST['fullname'] . '","' . $_POST['username'] . '","' . password_hash($_POST['password'],PASSWORD_DEFAULT) . '")';$executes_query_insert_user_details = mysqli_query( $connect_db_movie_review, $query_insert_user_details ) or die( mysqli_error( $connect_db_movie_review ) );
+                    if(!empty($_POST['image']) && isset($_POST['image'])){
+                        $last_insert_user_id = mysqli_insert_id($connect_db_movie_review);
+
+                        //---------------------------------------------------------------------------------------------------------------
+
+                        // check image validation
+
+
+
+                        $queryInsertUserProfileImage = 'insert into image (user_id, image_filename, image_upload_date, image_caption) 
+                                                                    values('.$last_insert_user_id.','')'
+                        $insert_user_profile_image =
+                    }
+                    echo 'created successfully!!';
+                   header( 'Refresh:3; URL=login_page.php' );
 			}else{
 				echo 'Password do not match!!!';
 			}
 			break;
-
+//-------------------------------------------------------------------------------------------------------------------------
 		//comparing username and password to login
 		case (isset($_POST['compare_username']) && isset($_POST['compare_password'])):
 			$query_select_user = 'select username from user_details where username="'.$_POST['compare_username'].'"';
