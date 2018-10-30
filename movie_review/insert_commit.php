@@ -134,8 +134,8 @@ if(!empty($_POST)) {
                                             move_uploaded_file($imagefileTmpName,$fileUploadDestination);
                                             $uploadDate = date('H:i:s m.d.Y');
                                             $imageCaption = 'Profile Image of'.$last_insert_user_id;
-                                            $query_insert_profile_image = 'insert into image(user_id, image_filename,image_upload_date,image_caption)
-                                                                                          values ('.$last_insert_user_id.','.$imageNewFileName.','.$uploadDate.','.$imageCaption.')';
+                                            $query_insert_profile_image = 'insert into images(user_id, image_filename,image_upload_date,image_caption)
+                                                                                          values ('.$last_insert_user_id.',"'.$imageNewFileName.'","'.$uploadDate.'","'.$imageCaption.'")';
                                             $execute_query_insert_profile_image = mysqli_query($connect_db_movie_review,$query_insert_profile_image) or die($connect_db_movie_review);
                                         }  else{
                                             echo 'The size of the file greater than 25mb.';

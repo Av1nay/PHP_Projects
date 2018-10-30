@@ -1,4 +1,5 @@
 <?php
+session_start();
 include 'header.php';
 ?>
 <form action="insert_commit.php" method="post">
