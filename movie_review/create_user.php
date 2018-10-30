@@ -49,7 +49,7 @@ include 'db_connect.php';
             </tr>
 			<tr>
 				<td colspan="2" style="text-align: center;">
-					<input type="submit" value="Create User">
+					<input type="submit" value="Create User" name="submit">
 				</td>
 			</tr>
 		</table>

@@ -1,7 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: abhinaychaudhary
- * Date: 29/10/2018
- * Time: 10.54
- */
+include 'db_connect.php';
+?>
+<form action="validate_image.php" method="post" enctype="multipart/form-data">
+    <input type="file" name="image" value="Upload">
+    <input type="submit" name="submit" value="Upload">
+</form>
