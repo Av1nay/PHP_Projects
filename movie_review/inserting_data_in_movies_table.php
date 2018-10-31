@@ -101,7 +101,7 @@ echo '<h3 style="text-align: right;">Hello '.$_SESSION['username'].'</h3><hr>';
         </tr>
         <tr>
             <td colspan="2" style="text-align: center;">
-                <input type="submit" value="ADD" >
+                <input type="submit" name="submit" value="ADD" >
             </td>
         </tr>
 	</table>

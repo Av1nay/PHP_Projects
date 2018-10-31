@@ -57,9 +57,12 @@ if(!empty($_POST)) {
 			$movie_name = $_POST['moviename'];
 			$genre=$_POST['genre'];
 			$year = $_POST['year'];
-
-			$movie_running_time = explode(':',$_POST['running_time']);
-			$time_in_minutes = $movie_running_time[0]*60+$movie_running_time[1];
+			if(isset($_POST['running_time'])){
+                $movie_running_time = explode(':',$_POST['running_time']);
+                $time_in_minutes = $movie_running_time[0]*60+$movie_running_time[1];
+            }else{
+			    echo 'Set running time of the movie';
+            }
 
 			$actor = ($_POST['actor'] !== 'actor_value')? $_POST['actor'] : 0;
 			$director = ($_POST['director'] !== 'director_value') ? $_POST['director'] : 0;
@@ -67,7 +70,6 @@ if(!empty($_POST)) {
 										values ("'.$movie_name.'",'.$genre.','.$year.','.$actor.','.$director.','.$time_in_minutes.')';
 			$executes_query_to_insert_movies = mysqli_query($connect_db_movie_review,$query_to_insert_movies) or die(mysqli_error($connect_db_movie_review));
             $last_insert_movie_id = mysqli_insert_id($connect_db_movie_review);
-            echo $last_insert_movie_id;
 
 // inserting movie image cover
 
@@ -102,7 +104,6 @@ if(!empty($_POST)) {
             }else{
                 if(isset($_POST['submit'])){
                     $imageDetails = $_FILES['image'];
-                    echo '<pre>';print_r($imageDetails);echo '</pre>';
                     $imageFileName = $_FILES['image']['name'];
                     $imageFiletype = $_FILES['image']['type'];
                     $imagefileTmpName = $_FILES['image']['tmp_name'];
@@ -110,7 +111,6 @@ if(!empty($_POST)) {
                     $imageFileSize = $_FILES['image']['size'];
 
                     $imageExtract = explode('.', $imageFileName);
-                    echo '<pre>';print_r($imageExtract);echo '</pre>';
 
                     $imageActualExt = strtolower(end($imageExtract));
                     $imageExtAllowed = array('jpg','jpeg','png');
@@ -130,7 +130,8 @@ if(!empty($_POST)) {
                                     $user_id = $value['user_id'];
                                 }
                                 $query_insert_movie_cover = 'insert into images(movie_id,image_caption,image_filename,image_upload_date,image_uploader) 
-                                                                            values('.$last_insert_movie_id.',"movie_cover_image",'.$imageNewFileName.',"'.$uploadDate.'",'.$user_id.')';
+                                                                            values('.$last_insert_movie_id.',"movie_cover_image","'.$imageNewFileName.'","'.$uploadDate.'",'.$user_id.')';
+                                $execute_insert_movie_cover = mysqli_query($connect_db_movie_review,$query_insert_movie_cover) or die(mysqli_error($connect_db_movie_review));
                             }  else{
                                 echo 'The size of the file greater than 25mb.';
                             }
@@ -143,7 +144,6 @@ if(!empty($_POST)) {
 
                 }
             }
-
 			echo ucfirst('new row successfully inserted!!');
 			header( 'Refresh:2; URL= inserting_data_in_movies_table.php' );
 			break;
@@ -151,9 +151,9 @@ if(!empty($_POST)) {
 		//insert users
 		case (isset($_POST['fullname']) && isset($_POST['username']) && isset($_POST['password']) && isset($_POST['comfirm_password'])):
 			if ($_POST['password'] == $_POST['comfirm_password']) {
-                    /*$query_insert_user_details = 'insert into user_details (fullname, username,password)
+                    $query_insert_user_details = 'insert into user_details (fullname, username,password)
 																values ("' . $_POST['fullname'] . '","' . $_POST['username'] . '","' . password_hash($_POST['password'],PASSWORD_DEFAULT) . '")';
-                    $executes_query_insert_user_details = mysqli_query( $connect_db_movie_review, $query_insert_user_details ) or die( mysqli_error( $connect_db_movie_review ) );*/
+                    $executes_query_insert_user_details = mysqli_query( $connect_db_movie_review, $query_insert_user_details ) or die( mysqli_error( $connect_db_movie_review ) );
                     if(!empty($_FILES['image']) && isset($_FILES['image'])){
                         $last_insert_user_id = mysqli_insert_id($connect_db_movie_review);
                         //---------------------------------------------------------------------------------------------------------------
