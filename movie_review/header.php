@@ -1,7 +1,7 @@
 <?php
 if (!isset($_SESSION['started'])){
 	$_SESSION['started'] = time();
-}elseif (time() - $_SESSION['started'] > 3600){
+}elseif (time() - $_SESSION['started'] > 36000){
 	session_destroy();
 	header('Location: login_page.php');
 }

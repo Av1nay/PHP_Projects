@@ -45,8 +45,8 @@ $create_reviews_query = 'create table if not exists reviews(
 																reviewer_name varchar(255) not null,
 																review_comment varchar(255),
 																review_ratings int(1) not null,
-																movie_id int (5) unique default 0,
-																user_id int (5) unique default 0,
+																movie_id int (5) default 0,
+																user_id int (5) default 0,
 																foreign key (movie_id) references movies(movie_id),
 																foreign key (user_id) references user_details(user_id)
 																)';
@@ -57,8 +57,9 @@ $create_images_query = 'create table if not exists images(
 															image_caption varchar(255) not null unique ,
 															image_filename varchar(255),
 															image_upload_date varchar(30),
-															movie_id int(5) unique,
-															user_id int (5) unique,
+															image_uploader int(5),
+															movie_id int(5) default 0,
+															user_id int (5) default 0,
 															foreign key (movie_id) references movies(movie_id),
 															foreign key (user_id) references user_details(user_id)
 															)';

@@ -66,6 +66,84 @@ if(!empty($_POST)) {
 			$query_to_insert_movies = 'insert into movies (movie_name,movie_type,movie_year,movie_actor, movie_director,movie_running_time)
 										values ("'.$movie_name.'",'.$genre.','.$year.','.$actor.','.$director.','.$time_in_minutes.')';
 			$executes_query_to_insert_movies = mysqli_query($connect_db_movie_review,$query_to_insert_movies) or die(mysqli_error($connect_db_movie_review));
+            $last_insert_movie_id = mysqli_insert_id($connect_db_movie_review);
+            echo $last_insert_movie_id;
+
+// inserting movie image cover
+
+// image error handling
+//make sure uploaded image is valid
+            if ($_FILES['image']['error'] != UPLOAD_ERR_OK){
+                switch($_FILES['image']['error']){
+                    case UPLOAD_ERR_INI_SIZE:
+                        die('Uploaded file exceded the upload_max_filesize directive php.ini.');
+                        break;
+                    case UPLOAD_ERR_FORM_SIZE:
+                        die('Uploaded file exceeded MAX_FILE_SIZE directive that was specified in the form.');
+                        break;
+                    case UPLOAD_ERR_PARTIAL:
+                        die('The file is partially uploaded');
+                        break;
+                    case UPLOAD_ERR_NO_FILE:
+                        die('No file is uploaded');
+                        break;
+                    case UPLOAD_ERR_NO_TMP_DIR:
+                        die('The server is missing the temporary folder');
+                        break;
+                    case UPLOAD_ERR_CANT_WRITE:
+                        die('The server failed to write uploaded file to the disk');
+                        break;
+                    case UPLOAD_ERR_EXTENSION:
+                        die('Unsupported extension');
+                        break;
+                    default:
+                        break;
+                }
+            }else{
+                if(isset($_POST['submit'])){
+                    $imageDetails = $_FILES['image'];
+                    echo '<pre>';print_r($imageDetails);echo '</pre>';
+                    $imageFileName = $_FILES['image']['name'];
+                    $imageFiletype = $_FILES['image']['type'];
+                    $imagefileTmpName = $_FILES['image']['tmp_name'];
+                    $imageFileError = $_FILES['image']['error'];
+                    $imageFileSize = $_FILES['image']['size'];
+
+                    $imageExtract = explode('.', $imageFileName);
+                    echo '<pre>';print_r($imageExtract);echo '</pre>';
+
+                    $imageActualExt = strtolower(end($imageExtract));
+                    $imageExtAllowed = array('jpg','jpeg','png');
+
+                    //check if the uploaded image have valid extension
+
+                    if (in_array($imageActualExt,$imageExtAllowed)){
+                        if ($imageFileError ===0){
+                            if ($imageFileSize < 26214400){
+                                $imageNewFileName = bin2hex(openssl_random_pseudo_bytes(5,$crypt_strong)).".".$imageActualExt;
+                                $fileUploadDestination = 'image_web/'.$imageNewFileName;
+                                move_uploaded_file($imagefileTmpName,$fileUploadDestination);
+                                $uploadDate = date('H:i:s m.d.Y');
+                                $query_select_user= 'select user_id from user_details where username="'.$_SESSION['username'].'"';
+                                $execute_query_select_user = mysqli_query($connect_db_movie_review,$query_select_user)or die(mysqli_error($connect_db_movie_review));
+                                foreach ($execute_query_select_user as $value){
+                                    $user_id = $value['user_id'];
+                                }
+                                $query_insert_movie_cover = 'insert into images(movie_id,image_caption,image_filename,image_upload_date,image_uploader) 
+                                                                            values('.$last_insert_movie_id.',"movie_cover_image",'.$imageNewFileName.',"'.$uploadDate.'",'.$user_id.')';
+                            }  else{
+                                echo 'The size of the file greater than 25mb.';
+                            }
+                        } else{
+                            echo 'There is an error on uploading file...';
+                        }
+                    }else{
+                        echo 'Invalid image format!!!';
+                    }
+
+                }
+            }
+
 			echo ucfirst('new row successfully inserted!!');
 			header( 'Refresh:2; URL= inserting_data_in_movies_table.php' );
 			break;
@@ -73,9 +151,9 @@ if(!empty($_POST)) {
 		//insert users
 		case (isset($_POST['fullname']) && isset($_POST['username']) && isset($_POST['password']) && isset($_POST['comfirm_password'])):
 			if ($_POST['password'] == $_POST['comfirm_password']) {
-                    $query_insert_user_details = 'insert into user_details (fullname, username,password)
+                    /*$query_insert_user_details = 'insert into user_details (fullname, username,password)
 																values ("' . $_POST['fullname'] . '","' . $_POST['username'] . '","' . password_hash($_POST['password'],PASSWORD_DEFAULT) . '")';
-                    $executes_query_insert_user_details = mysqli_query( $connect_db_movie_review, $query_insert_user_details ) or die( mysqli_error( $connect_db_movie_review ) );
+                    $executes_query_insert_user_details = mysqli_query( $connect_db_movie_review, $query_insert_user_details ) or die( mysqli_error( $connect_db_movie_review ) );*/
                     if(!empty($_FILES['image']) && isset($_FILES['image'])){
                         $last_insert_user_id = mysqli_insert_id($connect_db_movie_review);
                         //---------------------------------------------------------------------------------------------------------------
@@ -134,8 +212,8 @@ if(!empty($_POST)) {
                                             move_uploaded_file($imagefileTmpName,$fileUploadDestination);
                                             $uploadDate = date('H:i:s m.d.Y');
                                             $imageCaption = 'Profile Image of'.$last_insert_user_id;
-                                            $query_insert_profile_image = 'insert into images(user_id, image_filename,image_upload_date,image_caption)
-                                                                                          values ('.$last_insert_user_id.',"'.$imageNewFileName.'","'.$uploadDate.'","'.$imageCaption.'")';
+                                            $query_insert_profile_image = 'insert into images(user_id, image_filename,image_upload_date,image_caption,image_uploader)
+                                                                                          values ('.$last_insert_user_id.',"'.$imageNewFileName.'","'.$uploadDate.'","'.$imageCaption.'",'.$last_insert_user_id.')';
                                             $execute_query_insert_profile_image = mysqli_query($connect_db_movie_review,$query_insert_profile_image) or die($connect_db_movie_review);
                                         }  else{
                                             echo 'The size of the file greater than 25mb.';

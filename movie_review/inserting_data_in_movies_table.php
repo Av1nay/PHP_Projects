@@ -10,7 +10,7 @@ echo '<h3 style="text-align: right;">Hello '.$_SESSION['username'].'</h3><hr>';
         text-align: right;
     }
 </style>
-<form action="insert_commit.php" method="post">
+<form action="insert_commit.php" method="post" enctype="multipart/form-data">
 	<table align="center">
 		<tr>
 			<th>Moviename:</th>
@@ -91,6 +91,12 @@ echo '<h3 style="text-align: right;">Hello '.$_SESSION['username'].'</h3><hr>';
                         }
                     ?>
                 </select>
+            </td>
+        </tr>
+        <tr>
+            <th><label for="uploadMovieCover">Upload Moive Cover:</label></th>
+            <td>
+                <input type="file" name="image" value="Upload">
             </td>
         </tr>
         <tr>
