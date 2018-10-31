@@ -1,24 +1,44 @@
 <?php
+session_start();
 include 'header.php';
 ?>
 <form action="insert_commit.php">
 	<table>
 		<tr>
 			<td>
-                <img src="images/" alt="">
+                <?php
+                    $queryToSelectUser = 'select user_id from user_details where username = "'.$_SESSION['username'].'"';
+                    $executeQueryToSelectUser = mysqli_query($connect_db_movie_review, $queryToSelectUser) or die(mysqli_error($connect_db_movie_review));
+                    foreach ($executeQueryToSelectUser as $value){
+                    }
+                    $queryToSelectUserProfile = 'select image_filename from images where user_id ='.$value['user_id'];
+                    $executeQueryTOSelectProfile = mysqli_query($connect_db_movie_review, $queryToSelectUserProfile) or die($connect_db_movie_review);
+                    foreach ($executeQueryTOSelectProfile as $value){
+                    }
+                ?>
+                <img src="image_web/<?php echo $value['image_filename']; ?>" alt="profileImage" width="100" height="100">
+            </td>
+            <td>
+                <strong sty><?php echo $_SESSION['username'];?></strong>
+                <strong style="float: right;">
+                    Ratings:
+                    <select>
+                            <?php
+                            for ($i=0; $i<=5; $i++){
+                                echo'<option>'. $i.'</option>';
+                            }
+                            ?>
+
+                    </select>
+                </strong>
+                <div>
+                    <textarea rows="7" cols="150" maxlength="1000" name="commnts" style="height: 82px;"></textarea>
+                </div>
             </td>
 		</tr>
-        <tr>
-            <textarea rows="7" cols="150" maxlength="1000">
-
-            </textarea>
-        </tr>
-        <tr>
-            <td>
-                ratings:
-            </td>
-            <td>
-                <input >
+        <tr style="border-top: 1px solid #000000;">
+            <td colspan="2">
+                <input type="submit" name="submitReview" value="Post">
             </td>
         </tr>
 	</table>
