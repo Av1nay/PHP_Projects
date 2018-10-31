@@ -9,7 +9,7 @@ $create_movies_query = 'create table if not exists movies(
 															movie_year year,
 															movie_actor varchar(255),
 															movie_director varchar(255),
-															movie_running_time time,
+															movie_running_time varchar(30),
 															movie_cost varchar(255) default 0,
 															movie_earning varchar(255) default 0,
 															movie_profit varchar(255) default 0
@@ -25,8 +25,8 @@ $execute_create_movietype_query = mysqli_query($connect_db_movie_review,$create_
 $create_people_query = 'create table if not exists people(
 															people_id int(5) not null primary key auto_increment,
 															people_fullname varchar(255) not null unique,
-															people_is_actor int(1) not null,
-															people_is_director int(1) not null
+															people_is_actor int(1) default 0,
+															people_is_director int(1) default 0
 															)';
 $execute_create_people_query = mysqli_query($connect_db_movie_review,$create_people_query) or die($connect_db_movie_review);
 
