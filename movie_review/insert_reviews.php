@@ -23,11 +23,12 @@ include 'header.php';
                 <strong style="float: right;">
                     Ratings:
                     <select>
-                            <?php
-                            for ($i=0; $i<=5; $i++){
-                                echo'<option>'. $i.'</option>';
-                            }
-                            ?>
+                        <option value="rate movie" selected>Rate Movie</option>
+                        <?php
+                        for ($i=1; $i<=5; $i++){
+                            echo'<option>'. $i.'</option>';
+                        }
+                        ?>
 
                     </select>
                 </strong>
@@ -36,7 +37,7 @@ include 'header.php';
                 </div>
             </td>
 		</tr>
-        <tr style="border-top: 1px solid #000000;">
+        <tr>
             <td colspan="2">
                 <input type="submit" name="submitReview" value="Post">
             </td>
