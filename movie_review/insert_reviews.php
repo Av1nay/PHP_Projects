@@ -33,7 +33,7 @@ include 'header.php';
                     </select>
                 </strong>
                 <div>
-                    <textarea rows="7" cols="150" maxlength="1000" name="commnts" style="height: 82px;"></textarea>
+                    <textarea rows="7" cols="150" maxlength="1000" name="comments" style="height: 82px;"></textarea>
                 </div>
             </td>
 		</tr>

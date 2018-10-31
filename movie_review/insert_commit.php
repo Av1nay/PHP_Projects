@@ -262,6 +262,9 @@ if(!empty($_POST)) {
 				}
 			}
 			break;
+
+
+
 		default:
 			echo 'Failed to insert';
 			break;
