@@ -1,19 +1,13 @@
 <?php
+include 'db_connect.php';
 include 'header.php';
 
-?>
-<form>
-	<table>
-		<tr>
-			<th>
-				S.N
-			</th>
-			<th>
-				Movie
-			</th>
-			<th>
 
-			</th>
-		</tr>
-	</table>
-</form>
+$querySelectMovies = 'select movie_id from movies';
+$executeQuerySelectMovies = mysqli_query($connect_db_movie_review,$querySelectMovies)or die(mysqli_error($connect_db_movie_review));
+$numberOfRows = mysqli_num_rows($executeQuerySelectMovies);
+print_r($numberOfRows);
+for ($i=1; $i<=$numberOfRows;$i++){
+
+}
+?>

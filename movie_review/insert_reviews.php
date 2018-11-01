@@ -2,7 +2,7 @@
 session_start();
 include 'header.php';
 ?>
-<form action="insert_commit.php">
+<form action='insert_reviews.php?movie_id='<?php $movie_id?> method="post">
 	<table>
 		<tr>
 			<td>
@@ -15,15 +15,18 @@ include 'header.php';
                     $executeQueryTOSelectProfile = mysqli_query($connect_db_movie_review, $queryToSelectUserProfile) or die($connect_db_movie_review);
                     foreach ($executeQueryTOSelectProfile as $value){
                     }
+                    $select
+
                 ?>
                 <img src="image_web/<?php echo $value['image_filename']; ?>" alt="profileImage" width="100" height="100">
             </td>
             <td>
-                <strong sty><?php echo $_SESSION['username'];?></strong>
+                <strong style="float: left;"><?php echo $_SESSION['username'];?></strong>
                 <strong style="float: right;">
                     Ratings:
-                    <select>
+                    <select name="ratings">
                         <option value="rate movie" selected>Rate Movie</option>
+
                         <?php
                         for ($i=1; $i<=5; $i++){
                             echo'<option>'. $i.'</option>';
@@ -33,7 +36,7 @@ include 'header.php';
                     </select>
                 </strong>
                 <div>
-                    <textarea rows="7" cols="150" maxlength="1000" name="comments" style="height: 82px;"></textarea>
+                    <textarea rows="7" cols="150" maxlength="50%" name="comments" style="height: 82px;"></textarea>
                 </div>
             </td>
 		</tr>
@@ -44,3 +47,18 @@ include 'header.php';
         </tr>
 	</table>
 </form>
+<?php
+    if(isset($_POST['comments'])){
+        $reviewDate=date('H:i:s m.d.Y');
+        $comments = $_POST['comments'];
+        $ratings = $_POST['ratings'];
+        echo $reviewDate.'<br>';
+        echo $comments.'<br>';
+        echo $ratings;
+        die();
+        $queryInsertReview = 'insert into reviews(reiview_date,reviewer_name,review_comment,review_ratings,movie_id,user_id)
+                                values ("'.$reviewDate.'","'.$_SESSION['username'].'","'.$comments.'","'.$ratings.'")';
+}
+
+
+?>

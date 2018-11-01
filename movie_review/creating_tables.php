@@ -7,8 +7,8 @@ $create_movies_query = 'create table if not exists movies(
 															movie_name varchar(255) not null unique,
 															movie_type int(5) not null,
 															movie_year year,
-															movie_actor varchar(255),
-															movie_director varchar(255),
+															movie_actor int(5),
+															movie_director int(5),
 															movie_running_time varchar(30),
 															movie_cost varchar(255) default 0,
 															movie_earning varchar(255) default 0,
@@ -41,7 +41,7 @@ $execute_create_user_query = mysqli_query($connect_db_movie_review, $create_user
 //create review table
 $create_reviews_query = 'create table if not exists reviews(
 																review_id int(5) not null primary key auto_increment,
-																review_date date not null,
+																review_date varchar(30) not null,
 																reviewer_name varchar(255) not null,
 																review_comment varchar(255),
 																review_ratings int(1) not null,
