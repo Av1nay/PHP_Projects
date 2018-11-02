@@ -4,8 +4,10 @@ include 'db_connect.php';
 include 'header.php';
 
 //select image cover
-$querySelectMovieDetails = 'select * from movies';
-$executeQuerySelectMovieDetails = mysqli_query($connect_db_movie_review,$querySelectMovieDetails) or die(mysqli_error($connect_db_movie_review));
+$querySelectMovieDetails = 'select * from movies where movie_id='.$_GET['movieId'];
+echo $querySelectMovieDetails;
+die();
+/* $executeQuerySelectMovieDetails = mysqli_query($connect_db_movie_review,$querySelectMovieDetails) or die(mysqli_error($connect_db_movie_review));
 foreach ($executeQuerySelectMovieDetails as $value) {
     $movieId = $value['movie_id'];
     $movieName = $value['movie_name'];
@@ -52,7 +54,7 @@ foreach ($executeQuerySelectReviewsAndRatings as $value){
     $reviewerName = $value['reviewer_name'];
     $comments = $value['review_comment'];
     $ratings = $value['review_ratings'];
-}
+} */
 ?>
 <div style="width: 1000px; height: auto;">
     <div class="imageThumbnail" style="float: left;width: 40%;">
@@ -118,7 +120,7 @@ foreach ($executeQuerySelectReviewsAndRatings as $value){
                 <textarea maxlength="1000" name="comments" style="height: 80px; width: 100%"></textarea>
             </div>
         </div>
-        <dvi style="clear: both;"></dvi>
+        <div style="clear: both;"></div>
 
         <input type="submit" name="submitReview" value="Post">
     </form>
