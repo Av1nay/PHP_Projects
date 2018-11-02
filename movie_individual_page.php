@@ -4,7 +4,7 @@ include 'db_connect.php';
 include 'header.php';
 
 //select image cover
-$querySelectMovieDetails = 'select * from movies where movie_id='.$_GET['movieId'];
+$querySelectMovieDetails = 'select * from movies where movie_id='.$_GET['mid'];
 echo $querySelectMovieDetails;
 die();
 /* $executeQuerySelectMovieDetails = mysqli_query($connect_db_movie_review,$querySelectMovieDetails) or die(mysqli_error($connect_db_movie_review));
