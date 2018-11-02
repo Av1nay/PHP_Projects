@@ -54,14 +54,20 @@ foreach ($executeQuerySelectReviewsAndRatings as $value){
     $ratings = $value['review_ratings'];
 }
 ?>
-<div style="width: 100%; height: auto;">
+<div style="width: 1000px; height: auto;">
     <div class="imageThumbnail" style="float: left;width: 40%;">
         <img src="image_web/<?php echo $imageFileName; ?>" alt="<?php echo $movieName.' Cover'; ?>" width="350" height="450">
     </div>
     <div class="movieDescription" style="float: left;width: 60%;">
         <div>
-            <h1><?php echo $movieName; ?></h1>
+            <h1 style="float: left;"><?php echo $movieName; ?></h1>
+            <small style="float: right;">
+                <?php
+
+                ?>:
+            </small>
         </div>
+        <div style="clear: both;"></div>
         <hr>
         <div>
             <p>Year R eleased: <?php echo $releasedYear; ?> </p>
