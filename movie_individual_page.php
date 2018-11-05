@@ -5,9 +5,8 @@ include 'header.php';
 
 //select image cover
 $querySelectMovieDetails = 'select * from movies where movie_id='.$_GET['mid'];
-echo $querySelectMovieDetails;
-die();
-/* $executeQuerySelectMovieDetails = mysqli_query($connect_db_movie_review,$querySelectMovieDetails) or die(mysqli_error($connect_db_movie_review));
+$executeQuerySelectMovieDetails = mysqli_query($connect_db_movie_review,$querySelectMovieDetails) or die(mysqli_error($connect_db_movie_review));
+
 foreach ($executeQuerySelectMovieDetails as $value) {
     $movieId = $value['movie_id'];
     $movieName = $value['movie_name'];
@@ -35,15 +34,13 @@ $executeQuerySelectGenre = mysqli_query($connect_db_movie_review,$querySelectGen
 foreach($executeQuerySelectGenre as $value){
     $genre = $value['movietype_label'];
 }
-//select director
-$querySelectDirector = 'select people_fullname from people where people_id='.$movie_director;
-foreach(mysqli_query($connect_db_movie_review,$querySelectDirector) as $value ){
-    $director = $value['people_fullname'];
-}
-//select actor
-$querySelectActor = 'select people_fullname from people where people_id='.$movie_actor;
-foreach(mysqli_query($connect_db_movie_review,$querySelectActor) as $value ){
-    $leadactor = $value['people_fullname'];
+
+//select people from people table
+$queryToSelectPoeple = 'select PA.people_fullname as actor,PD.people_fullname as director from movies as M left join people as PA on PA.people_id = M.movie_actor left join people as PD on PD.people_id = M.movie_director  where movie_id ='.$_GET['mid'];
+$executeQueryToSelectPeople = mysqli_query($connect_db_movie_review, $queryToSelectPoeple) or die(mysqli_error($connect_db_movie_review));
+foreach($executeQueryToSelectPeople as $value){
+$actor = $value['actor'];
+$director = $value['director'];
 }
 //select reviews and ratings
 $querySelectReviewsAndRatings = 'select * from reviews';
@@ -54,7 +51,7 @@ foreach ($executeQuerySelectReviewsAndRatings as $value){
     $reviewerName = $value['reviewer_name'];
     $comments = $value['review_comment'];
     $ratings = $value['review_ratings'];
-} */
+}
 ?>
 <div style="width: 1000px; height: auto;">
     <div class="imageThumbnail" style="float: left;width: 40%;">
@@ -75,7 +72,7 @@ foreach ($executeQuerySelectReviewsAndRatings as $value){
             <p>Year R eleased: <?php echo $releasedYear; ?> </p>
             <p>Genre: <?php echo ucwords($genre);?></p>
             <p>Director: <?php echo ucwords($director);?></p>
-            <p>Lead Actor: <?php echo $leadactor; ?></p>
+            <p>Lead Actor: <?php echo ucwords($actor); ?></p>
             <p>Running Time: <?php echo $runningTime.' minutes'; ?></p>
             <p>Movie Cost: <?php echo $cost;?></p>
             <p>Earnings: <?php echo $earnings;?></p>
@@ -87,7 +84,10 @@ foreach ($executeQuerySelectReviewsAndRatings as $value){
     <hr>
     <form action="#" method="post">
         <?php
+        echo $_SESSION['username'];
         $queryToSelectUser = 'select user_id from user_details where username = "'.$_SESSION['username'].'"';
+        echo $queryToSelectUser;
+        die();
         $executeQueryToSelectUser = mysqli_query($connect_db_movie_review, $queryToSelectUser) or die(mysqli_error($connect_db_movie_review));
         foreach ($executeQueryToSelectUser as $value){
         }

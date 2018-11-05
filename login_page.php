@@ -2,7 +2,7 @@
 session_start();
 include 'header.php';
 ?>
-<form action="insert_commit.php" method="post">
+<form action="admin_firstpage.php" method="post">
 	<center>
 		<h2>Enter Your Login Credentials</h2>
 		<hr>

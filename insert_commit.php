@@ -250,7 +250,7 @@ if(!empty($_POST)) {
 						$_SESSION['username']= $user_from_table;
 						echo 'Successfully Logged in!!';
 						if ($_SESSION['username'] == 'admin'){
-							header( 'Refresh:2; URL=inserting_data_in_movies_table.php' );
+							header( 'Refresh:2; URL=admin_firstpage.php' );
 						}else{
 							header('Refresh:2; URL=firstpage.php');
 						}
