@@ -123,7 +123,7 @@ if(!empty($_POST)) {
                                 $imageNewFileName = bin2hex(openssl_random_pseudo_bytes(5,$crypt_strong)).".".$imageActualExt;
                                 $fileUploadDestination = 'image_web/'.$imageNewFileName;
                                 move_uploaded_file($imagefileTmpName,$fileUploadDestination);
-                                $uploadDate = date('H:i:s m.d.Y');
+                                $uploadDate = date('Y-m-d H:i:s');
                                 $query_select_user= 'select user_id from user_details where username="'.$_SESSION['username'].'"';
                                 $execute_query_select_user = mysqli_query($connect_db_movie_review,$query_select_user)or die(mysqli_error($connect_db_movie_review));
                                 foreach ($execute_query_select_user as $value){
@@ -238,13 +238,13 @@ if(!empty($_POST)) {
 		//comparing username and password to login
 		case (isset($_POST['compare_username']) && isset($_POST['compare_password'])):
 			$query_select_user = 'select username from user_details where username="'.$_POST['compare_username'].'"';
-			$execute_query_select_user = mysqli_query($connect_db_movie_review,$query_select_user);
+            $execute_query_select_user = mysqli_query($connect_db_movie_review,$query_select_user);
 			foreach ($execute_query_select_user as $value) {
 				$user_from_table  = $value['username'];
 				$query_select_user_pass = 'select password from user_details where username="'. $user_from_table.'"';
 				$execute_query_select_user_pass = mysqli_query($connect_db_movie_review,$query_select_user_pass);
 				foreach ($execute_query_select_user_pass as $value){
-					$user_pass = $value['password'];
+                    $user_pass = $value['password'];
 					if (password_verify($_POST['compare_password'],$user_pass)){
 						$_SESSION['userpass']= $user_pass;
 						$_SESSION['username']= $user_from_table;

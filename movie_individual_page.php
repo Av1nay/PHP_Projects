@@ -20,7 +20,17 @@ foreach ($executeQuerySelectMovieDetails as $value) {
     $profit = $value['movie_profit'];
 }
 //select user profile
-$querySelectMovieCover = 'select image_id, movie_id,user_id,image_filename from images';
+$querySelectUser = 'select * from user_details where username="'.$_SESSION['username'].'"';
+$executeQuerySelectUser = mysqli_query($connect_db_movie_review,$querySelectUser) or die(mysqli_error($connect_db_movie_review));
+$uId='';
+while($row = mysqli_fetch_assoc($executeQuerySelectUser)){
+    $uId = $row['user_id'];
+    $userName = $row['username'];
+}
+
+
+//select images
+$querySelectMovieCover = 'select image_id, movie_id,user_id,image_filename from images where movie_id='.$movieId;
 $executeQuerySelectMovieCover = mysqli_query($connect_db_movie_review,$querySelectMovieCover )or die(mysqli_error($connect_db_movie_review));
 foreach ($executeQuerySelectMovieCover as $value){
     $imageId = $value['image_id'];
@@ -45,21 +55,25 @@ $director = $value['director'];
 //select reviews and ratings
 $querySelectReviewsAndRatings = 'select * from reviews';
 $executeQuerySelectReviewsAndRatings = mysqli_query($connect_db_movie_review,$querySelectReviewsAndRatings) or die(mysqli_error($connect_db_movie_review));
-foreach ($executeQuerySelectReviewsAndRatings as $value){
+
+while($row = mysqli_fetch_assoc($executeQuerySelectReviewsAndRatings)){
+}
+/*foreach ($executeQuerySelectReviewsAndRatings as $value){
     $reviewId = $value['review_id'];
     $reviewDate = $value['review_date'];
     $reviewerName = $value['reviewer_name'];
     $comments = $value['review_comment'];
     $ratings = $value['review_ratings'];
-}
+}*/
 ?>
+
 <div style="width: 1000px; height: auto;">
     <div class="imageThumbnail" style="float: left;width: 40%;">
         <img src="image_web/<?php echo $imageFileName; ?>" alt="<?php echo $movieName.' Cover'; ?>" width="350" height="450">
     </div>
     <div class="movieDescription" style="float: left;width: 60%;">
         <div>
-            <h1 style="float: left;"><?php echo $movieName; ?></h1>
+            <h1 style="float: left;"><?php echo ucwords($movieName); ?></h1>
             <small style="float: right;">
                 <?php
 
@@ -84,10 +98,7 @@ foreach ($executeQuerySelectReviewsAndRatings as $value){
     <hr>
     <form action="#" method="post">
         <?php
-        echo $_SESSION['username'];
         $queryToSelectUser = 'select user_id from user_details where username = "'.$_SESSION['username'].'"';
-        echo $queryToSelectUser;
-        die();
         $executeQueryToSelectUser = mysqli_query($connect_db_movie_review, $queryToSelectUser) or die(mysqli_error($connect_db_movie_review));
         foreach ($executeQueryToSelectUser as $value){
         }
@@ -124,17 +135,24 @@ foreach ($executeQuerySelectReviewsAndRatings as $value){
 
         <input type="submit" name="submitReview" value="Post">
     </form>
-    <?php
-if(isset($_POST['comments'])){
-    $reviewDate=date('H:i:s m.d.Y');
-    $comments = $_POST['comments'];
-    $movieRatings = $_POST['ratings'];
-    echo $reviewDate.'<br>';
-    echo $comments.'<br>';
-    echo $movieRatings.'<br>';
-    $queryInsertReview = 'insert into reviews(reiview_date,reviewer_name,review_comment,review_ratings,movie_id,user_id)
-                                values ("'.$reviewDate.'","'.$_SESSION['username'].'","'.$comments.'","'.$movieRatings.'")';
-    echo $queryInsertReview;
+<?php
+if(isset($_POST['submitReview'])){
+    if(!empty($_POST['comments'])){
+        $reviewDate=date('Y-m-d H:i.s');
+        $comments = $_POST['comments'];
+        $movieRatings = $_POST['ratings'];
+        $queryInsertReview = 'insert into reviews(review_date,reviewer_name,review_comment,review_ratings,movie_id,user_id)
+                                    values ("'.$reviewDate.'","'.$_SESSION['username'].'","'.$comments.'",'.$movieRatings.','.$_GET['mid'].','.$uId .')';
+        $executeQueryInsertReview = mysqli_query($connect_db_movie_review,$queryInsertReview) or die(mysqli_error($connect_db_movie_review));
+    }
+    
 }
+$querySelectReview = 'select * from reviews where movie_id='.$_GET['mid'];
+$exectueQuerySelectReview = mysqli_query($connect_db_movie_review,$querySelectReview) or die(mysqli_error($connect_db_movie_review));
+    while($row = mysqli_fetch_assoc($exectueQuerySelectReview)){
+        echo '<br><br><p>'.$row['review_comment'].'</p>
+            <hr>
+            <h3>'.$row['reviewer_name'] .'</h3><small>'.$row['review_date'].'</small>';
+    }
 ?>
 </div>

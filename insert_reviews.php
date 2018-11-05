@@ -2,7 +2,7 @@
 session_start();
 include 'header.php';
 ?>
-<form action='insert_reviews.php?movie_id='<?php $movie_id?> method="post">
+<form action='insert_reviews.php?mid='<?php $movie_id?> method="post">
 	<table>
 		<tr>
 			<td>
@@ -49,7 +49,7 @@ include 'header.php';
 </form>
 <?php
     if(isset($_POST['comments'])){
-        $reviewDate=date('H:i:s m.d.Y');
+        $reviewDate=date('Y-m-d H:i:s');
         $comments = $_POST['comments'];
         $ratings = $_POST['ratings'];
         echo $reviewDate.'<br>';
@@ -59,6 +59,6 @@ include 'header.php';
         $queryInsertReview = 'insert into reviews(reiview_date,reviewer_name,review_comment,review_ratings,movie_id,user_id)
                                 values ("'.$reviewDate.'","'.$_SESSION['username'].'","'.$comments.'","'.$ratings.'")';
 }
-
+function getComments
 
 ?>

@@ -1,4 +1,5 @@
 <?php
+session_start();
 include 'db_connect.php';
 
 function generateRatings($ratings){
@@ -8,4 +9,7 @@ function generateRatings($ratings){
     }
     return $movieRatings;
 
+}
+function getComments($connect_db_movie_review){
+    $selectComments = 'select * from reviews where movie_id'
 }

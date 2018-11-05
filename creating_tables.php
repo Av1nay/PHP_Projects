@@ -56,7 +56,7 @@ $create_images_query = 'create table if not exists images(
 															image_id int(5) not null primary key auto_increment,
 															image_caption varchar(255) not null unique ,
 															image_filename varchar(255),
-															image_upload_date varchar(30),
+															image_upload_date datetime,
 															image_uploader int(5),
 															movie_id int(5) default 0,
 															user_id int (5) default 0,
