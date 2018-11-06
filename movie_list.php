@@ -11,7 +11,7 @@ while ($row = mysqli_fetch_assoc($executeQuerySelectMovies)){
     $movieId =$row['movie_id'];
     if($_SESSION['username'] == 'admin'){
         echo '<tr><td><a href="movie_individual_page.php?mid='.$movieId.'">'.ucwords($row['movie_name']).'</a></td>
-        <td><a href="#">[EDIT]</a></td><td><a href="#">[DELETE]</a></td>
+        <td><a href="edit_delete.php?type=edit&mid='.$movieId.'">[EDIT]</a></td><td><a href="edit_delete.php?type=delete&mid='.$movieId.'"">[DELETE]</a></td>
         </tr>';
     }else{
         echo '<tr><td><a href="movie_individual_page.php?mid='.$movieId.'">'.ucwords($row['movie_name']).'</a><td></tr>';
