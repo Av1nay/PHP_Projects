@@ -53,6 +53,8 @@ include 'db_connect.php';
 				</td>
 			</tr>
 		</table>
+		<hr>
+		<a href="login_page.php">Already a user!!</a>
 	</center>
 </form>
 </html>
