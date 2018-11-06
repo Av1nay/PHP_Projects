@@ -210,8 +210,8 @@ if(!empty($_POST)) {
                                             $imageNewFileName = bin2hex(openssl_random_pseudo_bytes(5,$crypt_strong)).".".$imageActualExt;
                                             $fileUploadDestination = 'image_web/'.$imageNewFileName;
                                             move_uploaded_file($imagefileTmpName,$fileUploadDestination);
-                                            $uploadDate = date('H:i:s m.d.Y');
-                                            $imageCaption = 'Profile Image of'.$last_insert_user_id;
+                                            $uploadDate = date('Y-m-d H:i:s');
+                                            $imageCaption = 'Profile image of '.$last_insert_user_id;
                                             $query_insert_profile_image = 'insert into images(user_id, image_filename,image_upload_date,image_caption,image_uploader)
                                                                                           values ('.$last_insert_user_id.',"'.$imageNewFileName.'","'.$uploadDate.'","'.$imageCaption.'",'.$last_insert_user_id.')';
                                             $execute_query_insert_profile_image = mysqli_query($connect_db_movie_review,$query_insert_profile_image) or die($connect_db_movie_review);
@@ -232,8 +232,8 @@ if(!empty($_POST)) {
                    header( 'Refresh:3; URL=login_page.php' );
 			}else{
 				echo 'Password do not match!!!';
-			}
-			break;
+            }
+            break;
 //-------------------------------------------------------------------------------------------------------------------------
 		//comparing username and password to login
 		case (isset($_POST['compare_username']) && isset($_POST['compare_password'])):
@@ -252,7 +252,7 @@ if(!empty($_POST)) {
 						if ($_SESSION['username'] == 'admin'){
 							header( 'Refresh:2; URL=admin_firstpage.php' );
 						}else{
-							header('Refresh:2; URL=firstpage.php');
+							header('Refresh:2; URL=movie_list.php');
 						}
 
 					} else {
@@ -262,9 +262,6 @@ if(!empty($_POST)) {
 				}
 			}
 			break;
-
-
-
 		default:
 			echo 'Failed to insert';
 			break;

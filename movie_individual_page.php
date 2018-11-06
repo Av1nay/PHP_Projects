@@ -1,7 +1,8 @@
 <?php
 session_start();
-include 'db_connect.php';
 include 'header.php';
+include 'db_connect.php';
+
 
 //select image cover
 $querySelectMovieDetails = 'select * from movies where movie_id='.$_GET['mid'];
@@ -65,6 +66,18 @@ while($row = mysqli_fetch_assoc($executeQuerySelectReviewsAndRatings)){
     $comments = $value['review_comment'];
     $ratings = $value['review_ratings'];
 }*/
+function generateRatings($ratings){
+    $x=0;
+    while($x<$ratings){
+        echo '<img src="images/star.png" width="30px" height="30px">';
+        $x++;
+    }
+}
+$selectRatings = 'select round(avg(review_ratings),0) as ratings from reviews where movie_id='.$_GET['mid'];
+$executeSelectRatings = mysqli_query($connect_db_movie_review, $selectRatings) or die(mysqli_error($connect_db_movie_review));
+while($row = mysqli_fetch_assoc($executeSelectRatings)){
+    $ratings = $row['ratings'];
+}
 ?>
 
 <div style="width: 1000px; height: auto;">
@@ -76,8 +89,8 @@ while($row = mysqli_fetch_assoc($executeQuerySelectReviewsAndRatings)){
             <h1 style="float: left;"><?php echo ucwords($movieName); ?></h1>
             <small style="float: right;">
                 <?php
-
-                ?>:
+                generateRatings($ratings);
+                ?>
             </small>
         </div>
         <div style="clear: both;"></div>
@@ -147,12 +160,14 @@ if(isset($_POST['submitReview'])){
     }
     
 }
-$querySelectReview = 'select * from reviews where movie_id='.$_GET['mid'];
+$querySelectReview = 'select * from reviews where movie_id='.$_GET['mid'].' order by review_date desc';
+
 $exectueQuerySelectReview = mysqli_query($connect_db_movie_review,$querySelectReview) or die(mysqli_error($connect_db_movie_review));
     while($row = mysqli_fetch_assoc($exectueQuerySelectReview)){
+        
         echo '<br><br><p>'.$row['review_comment'].'</p>
-            <hr>
-            <h3>'.$row['reviewer_name'] .'</h3><small>'.$row['review_date'].'</small>';
+            <h3>'.$row['reviewer_name'].'</h3><small>'.$row['review_date'].generateRatings($row['review_ratings']).'</small>
+            <hr>';
     }
 ?>
 </div>

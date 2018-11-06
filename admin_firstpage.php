@@ -1,7 +1,8 @@
 <?php
 session_start();
-include 'db_connect.php';
 include 'header.php';
+include 'db_connect.php';
+
 echo '<h3 style="text-align: right;">Hello '.$_SESSION['username'].'</h3><hr>';
 ?>
 <form method="post">
