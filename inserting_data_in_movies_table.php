@@ -15,12 +15,13 @@ if(isset($_GET['type']) == 'edit'){
     $movieName='';
 }
 ?>
+<?php echo (isset($_GET['mid']) ? 'update' : 'submit'); ?>
 <style>
     th{
         text-align: right;
     }
 </style>
-<form action="insert_commit.php" method="post" enctype="multipart/form-data">
+<form action="insert_commit.php<?php echo (isset($_GET['mid']) ? '?type=edit&mid='.$_GET['mid'] :''); ?>" method="post" enctype="multipart/form-data">
 	<table align="center">
 		<tr>
 			<th>Moviename:</th>
