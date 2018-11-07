@@ -1,9 +1,19 @@
 <?php
 session_start();
+require 'db_connect.php';
 include 'header.php';
 
 echo '<h3 style="text-align: right;">Hello '.$_SESSION['username'].'</h3><hr>';
 
+if(isset($_GET['type']) == 'edit'){
+    $selectMovie = 'select * from movies where movie_id='.$_GET['mid'];
+    $executeSelectMovie = mysqli_query($connect_db_movie_review,$selectMovie) or die(mysqli_error($connect_db_movie_review));
+    while($row = mysqli_fetch_assoc($executeSelectMovie)){
+      $movieName = $row['movie_name'];  
+    }
+}else{
+    $movieName='';
+}
 ?>
 <style>
     th{
@@ -14,7 +24,7 @@ echo '<h3 style="text-align: right;">Hello '.$_SESSION['username'].'</h3><hr>';
 	<table align="center">
 		<tr>
 			<th>Moviename:</th>
-            <td><input tyep="text" name="moviename" required></td>
+            <td><input tyep="text" name="moviename" value="<?php echo $movieName; ?>" required></td>
 
 		</tr>
         <tr>
@@ -101,7 +111,7 @@ echo '<h3 style="text-align: right;">Hello '.$_SESSION['username'].'</h3><hr>';
         </tr>
         <tr>
             <td colspan="2" style="text-align: center;">
-                <input type="submit" name="submit" value="ADD" >
+                <input type="submit" name="<?php echo (isset($_GET['mid']) ? 'update' : 'submit'); ?>" value="<?php echo (isset($_GET['mid']) ? 'UPDATE' : 'ADD'); ?>" >
             </td>
         </tr>
 	</table>
