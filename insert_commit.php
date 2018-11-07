@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'db_connect.php';
+include 'db_connect.php'; 
 
 if(!empty($_POST)) {
 	switch ( isset( $_POST ) ) {
@@ -65,9 +65,14 @@ if(!empty($_POST)) {
             }
 
 			$actor = ($_POST['actor'] !== 'actor_value')? $_POST['actor'] : 0;
-			$director = ($_POST['director'] !== 'director_value') ? $_POST['director'] : 0;
-			$query_to_insert_movies = 'insert into movies (movie_name,movie_type,movie_year,movie_actor, movie_director,movie_running_time)
+            $director = ($_POST['director'] !== 'director_value') ? $_POST['director'] : 0;
+            if(isset($_POST['submit'])){
+                $query_to_insert_movies = 'insert into movies (movie_name,movie_type,movie_year,movie_actor, movie_director,movie_running_time)
 										values ("'.$movie_name.'",'.$genre.','.$year.','.$actor.','.$director.','.$time_in_minutes.')';
+            }else{
+                $query_to_insert_movies = 'update movies
+										set movie_name = "'.$movie_name.'", movie_type = '.$genre.',movie_year = '.$year.', movie_actor = '.$actor.',movie_director = '.$director.',movie_running_time = '.$time_in_minutes.' where movie_id='.$_GET['mid'].'';
+            }
 			$executes_query_to_insert_movies = mysqli_query($connect_db_movie_review,$query_to_insert_movies) or die(mysqli_error($connect_db_movie_review));
             $last_insert_movie_id = mysqli_insert_id($connect_db_movie_review);
 
@@ -144,9 +149,9 @@ if(!empty($_POST)) {
 
                 }
             }
-			echo ucfirst('new row successfully inserted!!');
-			header( 'Refresh:2; URL= inserting_data_in_movies_table.php' );
-			break;
+			echo ucfirst(isset($_POST['update']) ? 'updated successfully inserted!!' : 'new row inserted successfully');
+			isset($_POST['update']) ? header('Refresh:2; URL=movie_list.php') : header( 'Refresh:2; URL= inserting_data_in_movies_table.php' );
+            break;
 //-------------------------------------------------------------------------------------------------------------------------
 		//insert users
 		case (isset($_POST['fullname']) && isset($_POST['username']) && isset($_POST['password']) && isset($_POST['comfirm_password'])):
