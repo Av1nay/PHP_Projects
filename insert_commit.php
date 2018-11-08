@@ -166,7 +166,7 @@ if(!empty($_POST)) {
                         // check image validation
 
                         // image error handling
-//make sure uploaded image is valid
+                        //make sure uploaded image is valid
                         if ($_FILES['image']['error'] != UPLOAD_ERR_OK){
                             switch($_FILES['image']['error']){
                                 case UPLOAD_ERR_INI_SIZE:
@@ -241,34 +241,43 @@ if(!empty($_POST)) {
             break;
 //-------------------------------------------------------------------------------------------------------------------------
 		//comparing username and password to login
-		case (isset($_POST['compare_username']) && isset($_POST['compare_password'])):
+        case (isset($_POST['compare_username']) && isset($_POST['compare_password'])):
 			$query_select_user = 'select username from user_details where username="'.$_POST['compare_username'].'"';
             $execute_query_select_user = mysqli_query($connect_db_movie_review,$query_select_user);
-			foreach ($execute_query_select_user as $value) {
-				$user_from_table  = $value['username'];
-				$query_select_user_pass = 'select password from user_details where username="'. $user_from_table.'"';
-				$execute_query_select_user_pass = mysqli_query($connect_db_movie_review,$query_select_user_pass);
-				foreach ($execute_query_select_user_pass as $value){
-                    $user_pass = $value['password'];
-					if (password_verify($_POST['compare_password'],$user_pass)){
-						$_SESSION['userpass']= $user_pass;
-						$_SESSION['username']= $user_from_table;
-						echo 'Successfully Logged in!!';
-						if ($_SESSION['username'] == 'admin'){
-							header( 'Refresh:2; URL=admin_firstpage.php' );
-						}else{
-							header('Refresh:2; URL=movie_list.php');
-						}
-
-					} else {
-						echo 'Username or Password provided is incorrect!!';
-						die();
-					}
-				}
-			}
+            $noOfRows = $execute_query_select_user ->num_rows;
+            if($noOfRows !== 0){
+                foreach ($execute_query_select_user as $value) {
+                    $user_from_table  = $value['username'];
+                    if($_POST['comapre_username'] == $user_from_table){
+                        $query_select_user_pass = 'select password from user_details where username="'. $user_from_table.'"';
+                        $execute_query_select_user_pass = mysqli_query($connect_db_movie_review,$query_select_user_pass);
+                        foreach ($execute_query_select_user_pass as $value){
+                            $user_pass = $value['password'];
+                            if (password_verify($_POST['compare_password'],$user_pass)){
+                                $_SESSION['userpass']= $user_pass;
+                                $_SESSION['username']= $user_from_table;
+                                echo 'Successfully Logged in!!';
+                                if ($_SESSION['username'] == 'admin'){
+                                    header( 'Refresh:2; URL=admin_firstpage.php' );
+                                }else{
+                                    header('Refresh:2; URL=movie_list.php');
+                                }
+    
+                            } else {
+                                echo 'Username or Password provided is incorrect!!';
+                                die();
+                            }
+                       } 
+                    }else{
+                        echo 'User or password is incorrect';
+                    }
+                }
+            }else{
+                echo 'No user, create new user from the link provided ---> <a href="create_user.php">CREATE USER</a>';
+            }
 			break;
 		default:
-			echo 'Failed to insert';
+			echo 'Failed to execute';
 			break;
 	}
 }else{
